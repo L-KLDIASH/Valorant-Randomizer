@@ -359,6 +359,10 @@ html[data-theme="valorant-red"] {
   padding-top: 6px;
 }
 
+.favorites-list {
+  margin-top: 21px;
+}
+
 .panel-header,
 .favorites-list,
 .history-list {
