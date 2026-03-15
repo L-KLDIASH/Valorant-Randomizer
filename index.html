@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Valorant Random Agent Picker</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="bg-glow glow-1"></div>
+    <div class="bg-glow glow-2"></div>
+    <div class="grid-noise"></div>
+
+    <main class="app-shell">
+      <header class="hero">
+        <p class="eyebrow">Valorant Picker</p>
+        <h1>Random Agent Picker</h1>
+        <p class="hero-text">
+          Spin the roulette, filter by role, play solo or duo, and get a random
+          Valorant agent.
+        </p>
+      </header>
+
+      <section class="top-controls">
+        <div class="mode-switch">
+          <button class="mode-btn active" data-mode="solo">Solo</button>
+          <button class="mode-btn" data-mode="duo">2 Players</button>
+          <button class="mode-btn" data-mode="team">Team</button>
+          <button class="mode-btn" data-mode="balanced">Balanced Team</button>
+          <button class="mode-btn troll" data-mode="troll">Troll Mode</button>
+        </div>
+
+        <div class="utility-controls">
+          <button class="mute-btn" id="muteBtn" aria-pressed="false">
+            🔊 Sound On
+          </button>
+          <button class="mute-btn" id="noRepeatBtn" aria-pressed="false">
+            ♻️ No Repeat Off
+          </button>
+        </div>
+      </section>
+
+      <section class="filter-panel">
+        <p class="filter-title">Choose roles</p>
+
+        <div class="role-filters">
+          <label class="filter-chip active">
+            <input type="checkbox" value="all" checked />
+            <span>All</span>
+          </label>
+
+          <label class="filter-chip">
+            <input type="checkbox" value="Duelist" />
+            <span>Duelist</span>
+          </label>
+
+          <label class="filter-chip">
+            <input type="checkbox" value="Initiator" />
+            <span>Initiator</span>
+          </label>
+
+          <label class="filter-chip">
+            <input type="checkbox" value="Controller" />
+            <span>Controller</span>
+          </label>
+
+          <label class="filter-chip">
+            <input type="checkbox" value="Sentinel" />
+            <span>Sentinel</span>
+          </label>
+        </div>
+      </section>
+
+      <section class="picker-area">
+        <div class="picker-grid solo-mode" id="pickerGrid">
+          <article class="agent-card" id="card1">
+            <div class="card-overlay"></div>
+            <div class="agent-image-wrap">
+              <img id="agentImg1" class="agent-image" alt="Agent portrait" />
+            </div>
+            <div class="agent-info">
+              <p class="player-label">Player 1</p>
+              <p class="agent-role" id="agentRole1">Role</p>
+              <h2 class="agent-name" id="agentName1">Click Spin</h2>
+              <p class="agent-desc" id="agentDesc1">
+                Your random agent will appear here.
+              </p>
+            </div>
+          </article>
+
+          <article class="agent-card hidden" id="card2">
+            <div class="card-overlay"></div>
+            <div class="agent-image-wrap">
+              <img id="agentImg2" class="agent-image" alt="Agent portrait" />
+            </div>
+            <div class="agent-info">
+              <p class="player-label">Player 2</p>
+              <p class="agent-role" id="agentRole2">Role</p>
+              <h2 class="agent-name" id="agentName2">Waiting</h2>
+              <p class="agent-desc" id="agentDesc2">Waiting for spin.</p>
+            </div>
+          </article>
+
+          <article class="agent-card hidden" id="card3">
+            <div class="card-overlay"></div>
+            <div class="agent-image-wrap">
+              <img id="agentImg3" class="agent-image" alt="Agent portrait" />
+            </div>
+            <div class="agent-info">
+              <p class="player-label">Player 3</p>
+              <p class="agent-role" id="agentRole3">Role</p>
+              <h2 class="agent-name" id="agentName3">Waiting</h2>
+              <p class="agent-desc" id="agentDesc3">Waiting for spin.</p>
+            </div>
+          </article>
+
+          <article class="agent-card hidden" id="card4">
+            <div class="card-overlay"></div>
+            <div class="agent-image-wrap">
+              <img id="agentImg4" class="agent-image" alt="Agent portrait" />
+            </div>
+            <div class="agent-info">
+              <p class="player-label">Player 4</p>
+              <p class="agent-role" id="agentRole4">Role</p>
+              <h2 class="agent-name" id="agentName4">Waiting</h2>
+              <p class="agent-desc" id="agentDesc4">Waiting for spin.</p>
+            </div>
+          </article>
+
+          <article class="agent-card hidden" id="card5">
+            <div class="card-overlay"></div>
+            <div class="agent-image-wrap">
+              <img id="agentImg5" class="agent-image" alt="Agent portrait" />
+            </div>
+            <div class="agent-info">
+              <p class="player-label">Player 5</p>
+              <p class="agent-role" id="agentRole5">Role</p>
+              <h2 class="agent-name" id="agentName5">Waiting</h2>
+              <p class="agent-desc" id="agentDesc5">Waiting for spin.</p>
+            </div>
+          </article>
+        </div>
+
+        <div class="action-bar">
+          <button class="spin-btn" id="spinBtn">
+            <span>Spin Agent</span>
+          </button>
+        </div>
+
+        <p class="status-text" id="statusText">Loading agents...</p>
+      </section>
+
+      <section class="history-panel">
+        <div class="history-header">
+          <h3>Spin History</h3>
+          <button class="clear-history-btn" id="clearHistoryBtn">Clear</button>
+        </div>
+
+        <div class="history-list" id="historyList">
+          <p class="history-empty">No spins yet.</p>
+        </div>
+      </section>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>
