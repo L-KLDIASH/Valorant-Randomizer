@@ -1,27 +1,35 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="dark">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Valorant Random Agent Picker</title>
+    <title>Valorant Agent Picker Pro</title>
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <div class="bg-glow glow-1"></div>
-    <div class="bg-glow glow-2"></div>
+    <div class="loading-screen" id="loadingScreen">
+      <div class="loading-box">
+        <p class="loading-kicker">VALORANT PROTOCOL</p>
+        <h2 id="loadingText">Syncing agent protocol...</h2>
+      </div>
+    </div>
+
+    <div class="bg-orb orb-1"></div>
+    <div class="bg-orb orb-2"></div>
     <div class="grid-noise"></div>
+    <div id="particles"></div>
 
     <main class="app-shell">
       <header class="hero">
         <p class="eyebrow">Valorant Picker</p>
         <h1>Random Agent Picker</h1>
         <p class="hero-text">
-          Spin the roulette, filter by role, play solo or duo, and get a random
-          Valorant agent.
+          Spin, filter, favorite, share, and build your next Valorant pick with
+          a more polished tactical UI.
         </p>
       </header>
 
-      <section class="top-controls">
+      <section class="panel top-panel">
         <div class="mode-switch">
           <button class="mode-btn active" data-mode="solo">Solo</button>
           <button class="mode-btn" data-mode="duo">2 Players</button>
@@ -30,19 +38,50 @@
           <button class="mode-btn troll" data-mode="troll">Troll Mode</button>
         </div>
 
-        <div class="utility-controls">
-          <button class="mute-btn" id="muteBtn" aria-pressed="false">
-            🔊 Sound On
-          </button>
-          <button class="mute-btn" id="noRepeatBtn" aria-pressed="false">
-            ♻️ No Repeat Off
-          </button>
+        <div class="toolbar">
+          <button class="toolbar-btn" id="muteBtn">🔊 Sound On</button>
+          <button class="toolbar-btn" id="noRepeatBtn">♻️ No Repeat Off</button>
+
+          <select id="themeSelect" class="select-control">
+            <option value="dark">Dark</option>
+            <option value="neon">Neon</option>
+            <option value="valorant-red">Valorant Red</option>
+          </select>
         </div>
       </section>
 
-      <section class="filter-panel">
-        <p class="filter-title">Choose roles</p>
+      <section class="panel settings-panel">
+        <div class="settings-grid">
+          <div class="setting-group">
+            <label for="skillPreference">Skill Preference</label>
+            <select id="skillPreference" class="select-control">
+              <option value="any">Any Playstyle</option>
+              <option value="Aggressive">Aggressive</option>
+              <option value="Strategic">Strategic</option>
+              <option value="Support">Support</option>
+              <option value="Defensive">Defensive</option>
+            </select>
+          </div>
 
+          <div class="setting-group">
+            <label for="rankSelect">Rank</label>
+            <select id="rankSelect" class="select-control">
+              <option value="any">Any Rank</option>
+              <option value="Iron">Iron</option>
+              <option value="Bronze">Bronze</option>
+              <option value="Silver">Silver</option>
+              <option value="Gold">Gold</option>
+              <option value="Platinum">Platinum</option>
+              <option value="Diamond">Diamond</option>
+              <option value="Immortal">Immortal</option>
+              <option value="Radiant">Radiant</option>
+            </select>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel filter-panel">
+        <p class="filter-title">Choose roles</p>
         <div class="role-filters">
           <label class="filter-chip active">
             <input type="checkbox" value="all" checked />
@@ -74,6 +113,7 @@
       <section class="picker-area">
         <div class="picker-grid solo-mode" id="pickerGrid">
           <article class="agent-card" id="card1">
+            <button class="favorite-btn" data-player="1">☆</button>
             <div class="card-overlay"></div>
             <div class="agent-image-wrap">
               <img id="agentImg1" class="agent-image" alt="Agent portrait" />
@@ -81,14 +121,38 @@
             <div class="agent-info">
               <p class="player-label">Player 1</p>
               <p class="agent-role" id="agentRole1">Role</p>
-              <h2 class="agent-name" id="agentName1">Click Spin</h2>
+              <h2 class="agent-name" id="agentName1">Ready to Roll</h2>
               <p class="agent-desc" id="agentDesc1">
-                Your random agent will appear here.
+                Spin to assign your agent.
               </p>
+
+              <div class="badges-row">
+                <span class="meta-badge difficulty" id="agentDifficulty1"
+                  >Difficulty</span
+                >
+                <span class="meta-badge playstyle" id="agentPlaystyle1"
+                  >Playstyle</span
+                >
+              </div>
+
+              <div class="meta-panel">
+                <p class="meta-line">
+                  <strong>Tip:</strong>
+                  <span id="agentTip1">Waiting for assignment.</span>
+                </p>
+                <p class="meta-line">
+                  <strong>Best maps:</strong> <span id="agentMaps1">—</span>
+                </p>
+                <p class="meta-line">
+                  <strong>Rank note:</strong>
+                  <span id="rankAdvice1">Choose a rank for suggestions.</span>
+                </p>
+              </div>
             </div>
           </article>
 
           <article class="agent-card hidden" id="card2">
+            <button class="favorite-btn" data-player="2">☆</button>
             <div class="card-overlay"></div>
             <div class="agent-image-wrap">
               <img id="agentImg2" class="agent-image" alt="Agent portrait" />
@@ -97,11 +161,37 @@
               <p class="player-label">Player 2</p>
               <p class="agent-role" id="agentRole2">Role</p>
               <h2 class="agent-name" id="agentName2">Waiting</h2>
-              <p class="agent-desc" id="agentDesc2">Waiting for spin.</p>
+              <p class="agent-desc" id="agentDesc2">
+                Enable more players or spin.
+              </p>
+
+              <div class="badges-row">
+                <span class="meta-badge difficulty" id="agentDifficulty2"
+                  >Difficulty</span
+                >
+                <span class="meta-badge playstyle" id="agentPlaystyle2"
+                  >Playstyle</span
+                >
+              </div>
+
+              <div class="meta-panel">
+                <p class="meta-line">
+                  <strong>Tip:</strong>
+                  <span id="agentTip2">Waiting for assignment.</span>
+                </p>
+                <p class="meta-line">
+                  <strong>Best maps:</strong> <span id="agentMaps2">—</span>
+                </p>
+                <p class="meta-line">
+                  <strong>Rank note:</strong>
+                  <span id="rankAdvice2">Choose a rank for suggestions.</span>
+                </p>
+              </div>
             </div>
           </article>
 
           <article class="agent-card hidden" id="card3">
+            <button class="favorite-btn" data-player="3">☆</button>
             <div class="card-overlay"></div>
             <div class="agent-image-wrap">
               <img id="agentImg3" class="agent-image" alt="Agent portrait" />
@@ -110,11 +200,37 @@
               <p class="player-label">Player 3</p>
               <p class="agent-role" id="agentRole3">Role</p>
               <h2 class="agent-name" id="agentName3">Waiting</h2>
-              <p class="agent-desc" id="agentDesc3">Waiting for spin.</p>
+              <p class="agent-desc" id="agentDesc3">
+                Enable more players or spin.
+              </p>
+
+              <div class="badges-row">
+                <span class="meta-badge difficulty" id="agentDifficulty3"
+                  >Difficulty</span
+                >
+                <span class="meta-badge playstyle" id="agentPlaystyle3"
+                  >Playstyle</span
+                >
+              </div>
+
+              <div class="meta-panel">
+                <p class="meta-line">
+                  <strong>Tip:</strong>
+                  <span id="agentTip3">Waiting for assignment.</span>
+                </p>
+                <p class="meta-line">
+                  <strong>Best maps:</strong> <span id="agentMaps3">—</span>
+                </p>
+                <p class="meta-line">
+                  <strong>Rank note:</strong>
+                  <span id="rankAdvice3">Choose a rank for suggestions.</span>
+                </p>
+              </div>
             </div>
           </article>
 
           <article class="agent-card hidden" id="card4">
+            <button class="favorite-btn" data-player="4">☆</button>
             <div class="card-overlay"></div>
             <div class="agent-image-wrap">
               <img id="agentImg4" class="agent-image" alt="Agent portrait" />
@@ -123,11 +239,37 @@
               <p class="player-label">Player 4</p>
               <p class="agent-role" id="agentRole4">Role</p>
               <h2 class="agent-name" id="agentName4">Waiting</h2>
-              <p class="agent-desc" id="agentDesc4">Waiting for spin.</p>
+              <p class="agent-desc" id="agentDesc4">
+                Enable more players or spin.
+              </p>
+
+              <div class="badges-row">
+                <span class="meta-badge difficulty" id="agentDifficulty4"
+                  >Difficulty</span
+                >
+                <span class="meta-badge playstyle" id="agentPlaystyle4"
+                  >Playstyle</span
+                >
+              </div>
+
+              <div class="meta-panel">
+                <p class="meta-line">
+                  <strong>Tip:</strong>
+                  <span id="agentTip4">Waiting for assignment.</span>
+                </p>
+                <p class="meta-line">
+                  <strong>Best maps:</strong> <span id="agentMaps4">—</span>
+                </p>
+                <p class="meta-line">
+                  <strong>Rank note:</strong>
+                  <span id="rankAdvice4">Choose a rank for suggestions.</span>
+                </p>
+              </div>
             </div>
           </article>
 
           <article class="agent-card hidden" id="card5">
+            <button class="favorite-btn" data-player="5">☆</button>
             <div class="card-overlay"></div>
             <div class="agent-image-wrap">
               <img id="agentImg5" class="agent-image" alt="Agent portrait" />
@@ -136,32 +278,88 @@
               <p class="player-label">Player 5</p>
               <p class="agent-role" id="agentRole5">Role</p>
               <h2 class="agent-name" id="agentName5">Waiting</h2>
-              <p class="agent-desc" id="agentDesc5">Waiting for spin.</p>
+              <p class="agent-desc" id="agentDesc5">
+                Enable more players or spin.
+              </p>
+
+              <div class="badges-row">
+                <span class="meta-badge difficulty" id="agentDifficulty5"
+                  >Difficulty</span
+                >
+                <span class="meta-badge playstyle" id="agentPlaystyle5"
+                  >Playstyle</span
+                >
+              </div>
+
+              <div class="meta-panel">
+                <p class="meta-line">
+                  <strong>Tip:</strong>
+                  <span id="agentTip5">Waiting for assignment.</span>
+                </p>
+                <p class="meta-line">
+                  <strong>Best maps:</strong> <span id="agentMaps5">—</span>
+                </p>
+                <p class="meta-line">
+                  <strong>Rank note:</strong>
+                  <span id="rankAdvice5">Choose a rank for suggestions.</span>
+                </p>
+              </div>
             </div>
           </article>
         </div>
 
+        <div class="announcement-panel">
+          <p class="announcement-kicker">System Voice</p>
+          <h3 id="announcerText">Ready to roll.</h3>
+          <p class="status-text" id="statusText">
+            Press Spin to assign your next agent.
+          </p>
+        </div>
+
         <div class="action-bar">
-          <button class="spin-btn" id="spinBtn">
-            <span>Spin Agent</span>
+          <button class="spin-btn" id="spinBtn"><span>Spin Agent</span></button>
+          <button class="secondary-btn" id="shareBtn">Share Result</button>
+          <button class="secondary-btn" id="screenshotBtn">
+            Screenshot Card
           </button>
         </div>
-
-        <p class="status-text" id="statusText">Loading agents...</p>
       </section>
 
-      <section class="history-panel">
-        <div class="history-header">
-          <h3>Spin History</h3>
-          <button class="clear-history-btn" id="clearHistoryBtn">Clear</button>
+      <section class="panel bottom-grid">
+        <div class="history-panel">
+          <div class="panel-header">
+            <h3>Spin History</h3>
+            <button class="toolbar-btn small" id="clearHistoryBtn">
+              Clear
+            </button>
+          </div>
+          <div class="history-list" id="historyList">
+            <p class="history-empty">No spins yet.</p>
+          </div>
         </div>
 
-        <div class="history-list" id="historyList">
-          <p class="history-empty">No spins yet.</p>
+        <div class="favorites-panel">
+          <div class="panel-header">
+            <h3>Favorites</h3>
+          </div>
+          <div class="favorites-list" id="favoritesList">
+            <p class="history-empty">No favorites yet.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel help-panel">
+        <h3>Keyboard Shortcuts</h3>
+        <div class="shortcut-grid">
+          <span>Space → Spin</span>
+          <span>R → Spin Again</span>
+          <span>M → Mute</span>
+          <span>T → Troll Mode</span>
         </div>
       </section>
     </main>
 
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
     <script src="script.js"></script>
   </body>
 </html>
