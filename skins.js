@@ -1,79 +1,157 @@
 const skinsGrid = document.getElementById("skinsGrid");
 const filterButtons = document.querySelectorAll(".filter-button");
-const tierPrices = {
-  "0cebb8be-46d7-c12a-d306-e9907bfc5a25": { name: "Select", price: 875 },
-  "60bca009-4182-7998-dee7-b8a2558dc369": { name: "Deluxe", price: 1275 },
-  "12683d76-48d7-84a3-4e09-6985794f0445": { name: "Premium", price: 1775 },
-  "e046854e-406c-37f4-6607-19a9ba8426fc": { name: "Exclusive", price: 2175 },
-  "60bca009-4182-7998-dee7-b8a2558dc369": { name: "Ultra", price: 2475 },
+
+// Riot-ის tier-based VP approximation
+const PRICE_BY_TIER = {
+  "Select Edition": { gun: 875, melee: 1750 },
+  "Deluxe Edition": { gun: 1275, melee: 2550 },
+  "Premium Edition": { gun: 1775, melee: 3550 },
+  "Exclusive Edition": { gun: 2175, melee: 4350 },
+  "Ultra Edition": { gun: 2475, melee: 4950 },
 };
 
 let allSkins = [];
 
-async function loadSkins() {
-  const response = await fetch("https://valorant-api.com/v1/weapons");
-  const data = await response.json();
-
-  const weapons = data.data;
-
-  weapons.forEach((weapon) => {
-    weapon.skins.forEach((skin) => {
-      if (!skin.displayIcon) return;
-
-      const tier = tierPrices[skin.contentTierUuid];
-
-      allSkins.push({
-        name: skin.displayName,
-        weapon: weapon.displayName,
-        image: skin.displayIcon,
-        tier: tier ? tier.name : "Unknown",
-        price: tier ? tier.price : "-",
-      });
-    });
-  });
-
-  renderSkins("all");
+function normalizeWeaponName(name) {
+  return name === "Melee" ? "Knife" : name;
 }
 
-function renderSkins(selectedWeapon) {
-  let filtered =
+function getApproxPrice(tierName, weaponName) {
+  const tier = PRICE_BY_TIER[tierName];
+  if (!tier) return "-";
+
+  const isMelee = weaponName === "Melee" || weaponName === "Knife";
+  return isMelee ? tier.melee : tier.gun;
+}
+
+function getTierClass(tierName) {
+  return tierName.toLowerCase().replace(" edition", "").replace(/\s+/g, "-");
+}
+
+async function loadSkins() {
+  try {
+    const [weaponsRes, tiersRes] = await Promise.all([
+      fetch("https://valorant-api.com/v1/weapons"),
+      fetch("https://valorant-api.com/v1/contenttiers"),
+    ]);
+
+    if (!weaponsRes.ok || !tiersRes.ok) {
+      throw new Error("Failed to load Valorant API data.");
+    }
+
+    const weaponsJson = await weaponsRes.json();
+    const tiersJson = await tiersRes.json();
+
+    const tierMap = {};
+    tiersJson.data.forEach((tier) => {
+      tierMap[tier.uuid] = tier.displayName;
+    });
+
+    const skins = [];
+
+    weaponsJson.data.forEach((weapon) => {
+      const weaponName = normalizeWeaponName(weapon.displayName);
+
+      weapon.skins.forEach((skin) => {
+        const image =
+          skin.displayIcon ||
+          skin.wallpaper ||
+          skin.chromas?.[0]?.displayIcon ||
+          "";
+
+        if (!image) return;
+
+        const tierName = tierMap[skin.contentTierUuid] || "Unknown Tier";
+        const price = getApproxPrice(tierName, weaponName);
+
+        skins.push({
+          uuid: skin.uuid,
+          name: skin.displayName,
+          weapon: weaponName,
+          image,
+          tier: tierName,
+          price,
+        });
+      });
+    });
+
+    // დუბლიკატების მოცილება
+    const uniqueMap = new Map();
+    skins.forEach((skin) => {
+      if (!uniqueMap.has(skin.uuid)) {
+        uniqueMap.set(skin.uuid, skin);
+      }
+    });
+
+    allSkins = [...uniqueMap.values()].sort(
+      (a, b) =>
+        a.weapon.localeCompare(b.weapon) || a.name.localeCompare(b.name),
+    );
+
+    renderSkins("all");
+  } catch (error) {
+    console.error(error);
+    skinsGrid.innerHTML = `
+      <div class="empty-state">
+        Could not load skins right now.
+      </div>
+    `;
+  }
+}
+
+function renderSkins(selectedWeapon = "all") {
+  const filtered =
     selectedWeapon === "all"
       ? allSkins
-      : allSkins.filter((s) => s.weapon === selectedWeapon);
+      : allSkins.filter((skin) => skin.weapon === selectedWeapon);
 
   if (!filtered.length) {
-    skinsGrid.innerHTML = `<div class="empty-state">No skins found.</div>`;
+    skinsGrid.innerHTML = `
+      <div class="empty-state">
+        No skins found for this weapon.
+      </div>
+    `;
     return;
   }
 
   skinsGrid.innerHTML = filtered
-    .map(
-      (skin) => `
-      <article class="skin-card">
+    .map((skin) => {
+      const tierClass = getTierClass(skin.tier);
 
-        <div class="skin-image-wrap">
-          <img class="skin-image" src="${skin.image}" alt="${skin.name}">
-        </div>
+      return `
+        <article class="skin-card">
+          <div class="skin-image-wrap">
+            <img
+              class="skin-image"
+              src="${skin.image}"
+              alt="${skin.name}"
+              loading="lazy"
+            />
+          </div>
 
-<div class="skin-info">
-<p class="skin-weapon">${skin.weapon}</p>
-<h2 class="skin-name">${skin.name}</h2>
-<p class="skin-tier">${skin.tier} Edition</p>
-<p class="skin-price">${skin.price} VP</p>
-</div>
+          <div class="skin-info">
+            <p class="skin-weapon">${skin.weapon}</p>
+            <h2 class="skin-name">${skin.name}</h2>
 
-      </article>
-    `,
-    )
+            <div class="skin-meta-row">
+              <span class="skin-tier-badge ${tierClass}">
+                ${skin.tier}
+              </span>
+              <span class="skin-price">
+                ${skin.price === "-" ? "Price N/A" : `${skin.price} VP`}
+              </span>
+            </div>
+          </div>
+        </article>
+      `;
+    })
     .join("");
 }
 
 filterButtons.forEach((button) => {
   button.addEventListener("click", () => {
     filterButtons.forEach((btn) => btn.classList.remove("active"));
-
     button.classList.add("active");
-
     renderSkins(button.dataset.weapon);
   });
 });

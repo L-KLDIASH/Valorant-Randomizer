@@ -899,6 +899,53 @@ html[data-theme="valorant-red"] {
   margin-top: 4px;
 }
 
+.skin-meta-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 6px;
+}
+
+.skin-tier-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 12px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.skin-tier-badge.select {
+  color: #7ec8ff;
+}
+
+.skin-tier-badge.deluxe {
+  color: #7bffb2;
+}
+
+.skin-tier-badge.premium {
+  color: #f08cff;
+}
+
+.skin-tier-badge.exclusive {
+  color: #ffbf75;
+}
+
+.skin-tier-badge.ultra {
+  color: #ffe07a;
+}
+
+.skin-price {
+  font-size: 14px;
+  font-weight: 800;
+  color: #9ed9ff;
+}
+
 @keyframes fadeUp {
   from {
     opacity: 0;
