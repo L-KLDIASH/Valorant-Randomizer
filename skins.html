@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Valorant Skins Browser</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="bg-orb orb-1"></div>
+    <div class="bg-orb orb-2"></div>
+    <div class="grid-noise"></div>
+
+    <main class="app-shell">
+      <header class="hero">
+<div class="hero-topline">
+  <a href="index.html" class="nav-btn">Agent Picker</a>
+  <a href="skins.html" class="nav-btn">Skins Browser</a>
+</div>
+        </div>
+
+        <h1>Weapon Skins Browser</h1>
+        <p class="hero-text">
+          Browse Valorant skins and filter them by weapon type.
+        </p>
+      </header>
+
+      <section class="panel filter-panel">
+        <p class="filter-title">Choose weapon</p>
+
+<div class="role-filters">
+<button class="filter-button active" data-weapon="all">All</button>
+<button class="filter-button" data-weapon="Vandal">Vandal</button>
+<button class="filter-button" data-weapon="Phantom">Phantom</button>
+<button class="filter-button" data-weapon="Operator">Operator</button>
+<button class="filter-button" data-weapon="Sheriff">Sheriff</button>
+<button class="filter-button" data-weapon="Melee">Knife</button>
+</div>
+      </section>
+
+      <section class="skins-grid" id="skinsGrid"></section>
+    </main>
+
+    <script src="skins.js"></script>
+  </body>
+</html>
