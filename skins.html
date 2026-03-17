@@ -6,40 +6,230 @@
     <title>Valorant Skins Browser</title>
     <link rel="stylesheet" href="style.css" />
   </head>
-  <body>
+  <body class="skins-page">
     <div class="bg-orb orb-1"></div>
     <div class="bg-orb orb-2"></div>
     <div class="grid-noise"></div>
 
-    <main class="app-shell">
-      <header class="hero">
-<div class="hero-topline">
-  <a href="index.html" class="nav-btn">Agent Picker</a>
-  <a href="skins.html" class="nav-btn">Skins Browser</a>
-</div>
+    <main class="skins-shell">
+      <header class="skins-hero">
+        <div class="skins-hero-top">
+          <a href="index.html" class="back-btn">← Back to Picker</a>
+          <span class="skins-badge">VALORANT SKINS</span>
         </div>
 
-        <h1>Weapon Skins Browser</h1>
-        <p class="hero-text">
-          Browse Valorant skins and filter them by weapon type.
-        </p>
+        <div class="skins-hero-content">
+          <div>
+            <h1>Weapon Skins Browser</h1>
+            <p>
+              Browse Valorant skins with advanced filters, search, sorting, and
+              a better visual layout.
+            </p>
+          </div>
+
+          <div class="skins-toolbar">
+            <div class="search-wrap">
+              <input
+                type="text"
+                id="skinSearch"
+                class="search-input"
+                placeholder="Search skins..."
+              />
+            </div>
+
+            <select id="sortSelect" class="select-control">
+              <option value="name-asc">Name A–Z</option>
+              <option value="name-desc">Name Z–A</option>
+              <option value="price-asc">Price Low to High</option>
+              <option value="price-desc">Price High to Low</option>
+              <option value="tier">Rarity</option>
+            </select>
+          </div>
+        </div>
       </header>
 
-      <section class="panel filter-panel">
-        <p class="filter-title">Choose weapon</p>
+      <section class="skins-layout">
+        <aside class="skins-sidebar panel">
+          <div class="sidebar-section">
+            <div class="sidebar-title-row">
+              <h3>Filters</h3>
+              <button id="resetFiltersBtn" class="ghost-btn">Reset</button>
+            </div>
+          </div>
 
-<div class="role-filters">
-<button class="filter-button active" data-weapon="all">All</button>
-<button class="filter-button" data-weapon="Vandal">Vandal</button>
-<button class="filter-button" data-weapon="Phantom">Phantom</button>
-<button class="filter-button" data-weapon="Operator">Operator</button>
-<button class="filter-button" data-weapon="Sheriff">Sheriff</button>
-<button class="filter-button" data-weapon="Knife">Knife</button>
-</div>
+          <div class="sidebar-section">
+            <p class="sidebar-label">Weapon</p>
+            <div class="sidebar-chips" id="weaponFilters">
+              <button
+                class="sidebar-chip active"
+                data-filter-type="weapon"
+                data-value="all"
+              >
+                All
+              </button>
+              <button
+                class="sidebar-chip"
+                data-filter-type="weapon"
+                data-value="Vandal"
+              >
+                Vandal
+              </button>
+              <button
+                class="sidebar-chip"
+                data-filter-type="weapon"
+                data-value="Phantom"
+              >
+                Phantom
+              </button>
+              <button
+                class="sidebar-chip"
+                data-filter-type="weapon"
+                data-value="Operator"
+              >
+                Operator
+              </button>
+              <button
+                class="sidebar-chip"
+                data-filter-type="weapon"
+                data-value="Sheriff"
+              >
+                Sheriff
+              </button>
+              <button
+                class="sidebar-chip"
+                data-filter-type="weapon"
+                data-value="Knife"
+              >
+                Knife
+              </button>
+            </div>
+          </div>
+
+          <div class="sidebar-section">
+            <p class="sidebar-label">Rarity</p>
+            <div class="sidebar-chips" id="rarityFilters">
+              <button
+                class="sidebar-chip active"
+                data-filter-type="rarity"
+                data-value="all"
+              >
+                All
+              </button>
+              <button
+                class="sidebar-chip"
+                data-filter-type="rarity"
+                data-value="Select Edition"
+              >
+                Select
+              </button>
+              <button
+                class="sidebar-chip"
+                data-filter-type="rarity"
+                data-value="Deluxe Edition"
+              >
+                Deluxe
+              </button>
+              <button
+                class="sidebar-chip"
+                data-filter-type="rarity"
+                data-value="Premium Edition"
+              >
+                Premium
+              </button>
+              <button
+                class="sidebar-chip"
+                data-filter-type="rarity"
+                data-value="Exclusive Edition"
+              >
+                Exclusive
+              </button>
+              <button
+                class="sidebar-chip"
+                data-filter-type="rarity"
+                data-value="Ultra Edition"
+              >
+                Ultra
+              </button>
+            </div>
+          </div>
+
+          <div class="sidebar-section">
+            <p class="sidebar-label">Price</p>
+            <div class="sidebar-chips" id="priceFilters">
+              <button
+                class="sidebar-chip active"
+                data-filter-type="price"
+                data-value="all"
+              >
+                All
+              </button>
+              <button
+                class="sidebar-chip"
+                data-filter-type="price"
+                data-value="under-1000"
+              >
+                Under 1000 VP
+              </button>
+              <button
+                class="sidebar-chip"
+                data-filter-type="price"
+                data-value="1000-2000"
+              >
+                1000–2000 VP
+              </button>
+              <button
+                class="sidebar-chip"
+                data-filter-type="price"
+                data-value="2000-plus"
+              >
+                2000+ VP
+              </button>
+            </div>
+          </div>
+        </aside>
+
+        <section class="skins-main">
+          <div class="skins-main-top panel">
+            <div class="results-meta">
+              <p class="results-kicker">Collection Browser</p>
+              <h2 id="resultsTitle">Showing skins</h2>
+            </div>
+
+            <div class="results-count" id="resultsCount">0 skins</div>
+          </div>
+
+          <div class="skins-grid" id="skinsGrid">
+            <div class="empty-state">Loading skins...</div>
+          </div>
+        </section>
       </section>
-
-      <section class="skins-grid" id="skinsGrid"></section>
     </main>
+
+    <div class="skin-modal hidden" id="skinModal">
+      <div class="skin-modal-overlay" id="skinModalOverlay"></div>
+
+      <div class="skin-modal-card">
+        <button class="skin-modal-close" id="skinModalClose">✕</button>
+
+        <div class="skin-modal-image-wrap">
+          <img
+            id="modalSkinImage"
+            class="skin-modal-image"
+            alt="Skin preview"
+          />
+        </div>
+
+        <div class="skin-modal-info">
+          <p class="modal-weapon" id="modalSkinWeapon">Weapon</p>
+          <h2 id="modalSkinName">Skin Name</h2>
+
+          <div class="modal-meta-row">
+            <span class="skin-tier-badge" id="modalSkinTier">Tier</span>
+            <span class="skin-price" id="modalSkinPrice">0 VP</span>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <script src="skins.js"></script>
   </body>
