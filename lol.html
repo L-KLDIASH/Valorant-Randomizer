@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>League of Legends Draft Board</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body class="lol-board-page">
+    <div class="lol-bg-layer"></div>
+    <div class="lol-stars"></div>
+
+    <main class="lol-board-shell">
+      <aside class="lol-sidebar">
+        <div class="lol-sidebar-top">
+          <a href="index.html" class="lol-back-btn">← Back to Hub</a>
+          <div class="lol-brand">
+            <p class="lol-brand-kicker">League of Legends</p>
+            <h1>Draft Board</h1>
+          </div>
+        </div>
+
+        <div class="lol-sidebar-section">
+          <p class="lol-sidebar-label">Mode</p>
+          <div class="lol-mode-list">
+            <button class="lol-mode-btn active" data-mode="solo">
+              Solo Pick
+            </button>
+            <button class="lol-mode-btn" data-mode="duo">Duo Draft</button>
+            <button class="lol-mode-btn" data-mode="team">Team Draft</button>
+            <button class="lol-mode-btn" data-mode="balanced">
+              Balanced Draft
+            </button>
+            <button class="lol-mode-btn" data-mode="troll">Chaos Draft</button>
+          </div>
+        </div>
+
+        <div class="lol-sidebar-section">
+          <p class="lol-sidebar-label">Lane Filter</p>
+          <div class="lol-filter-list">
+            <button class="lol-filter-chip active" data-role="all">All</button>
+            <button class="lol-filter-chip" data-role="Top">Top</button>
+            <button class="lol-filter-chip" data-role="Jungle">Jungle</button>
+            <button class="lol-filter-chip" data-role="Mid">Mid</button>
+            <button class="lol-filter-chip" data-role="ADC">ADC</button>
+            <button class="lol-filter-chip" data-role="Support">Support</button>
+          </div>
+        </div>
+
+        <div class="lol-sidebar-section">
+          <p class="lol-sidebar-label">Settings</p>
+          <div class="lol-setting-stack">
+            <button class="lol-side-action" id="muteBtn">🔊 Sound On</button>
+            <button class="lol-side-action" id="noRepeatBtn">
+              ♻️ No Repeat Off
+            </button>
+            <button class="lol-side-action accent" id="spinBtn">
+              Spin Draft
+            </button>
+          </div>
+        </div>
+
+        <div class="lol-sidebar-section">
+          <p class="lol-sidebar-label">System Note</p>
+          <div class="lol-note-box">
+            <p id="challengeText">
+              Roll the draft to receive a lane challenge.
+            </p>
+          </div>
+        </div>
+      </aside>
+
+      <section class="lol-main-stage">
+        <section class="lol-featured-board">
+          <div class="lol-featured-image-wrap">
+            <img
+              id="featuredChampImage"
+              class="lol-featured-image"
+              alt="Champion splash art"
+            />
+            <div class="lol-featured-overlay"></div>
+          </div>
+
+          <div class="lol-featured-content">
+            <div class="lol-featured-top">
+              <p class="lol-featured-role" id="featuredChampRole">Role</p>
+              <h2 id="featuredChampName">Ready to Draft</h2>
+              <p class="lol-featured-desc" id="featuredChampDesc">
+                Press Spin Draft to assign your champion.
+              </p>
+            </div>
+
+            <div class="lol-featured-meta">
+              <span class="lol-pill" id="featuredChampDifficulty"
+                >Difficulty</span
+              >
+              <span class="lol-pill" id="featuredChampPlaystyle"
+                >Playstyle</span
+              >
+              <span class="lol-pill" id="featuredChampLane">Lane</span>
+            </div>
+
+            <div class="lol-insight-grid">
+              <div class="lol-insight-card">
+                <p class="lol-insight-title">Champion Guidance</p>
+                <p id="metaText">A draft suggestion will appear here.</p>
+              </div>
+
+              <div class="lol-insight-card">
+                <p class="lol-insight-title">Draft Analysis</p>
+                <p id="synergyText">
+                  Spin a team draft to analyze composition.
+                </p>
+              </div>
+            </div>
+
+            <div class="lol-announcer-box">
+              <p class="lol-announcer-kicker">Summoner Call</p>
+              <h3 id="announcerText">Choose your champion.</h3>
+              <p id="statusText">The board is waiting for your next draft.</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="lol-roster-panel">
+          <div class="lol-roster-head">
+            <div>
+              <p class="lol-roster-kicker">Draft Result</p>
+              <h3>Your Current Picks</h3>
+            </div>
+            <button class="lol-clear-btn" id="clearHistoryBtn">
+              Clear History
+            </button>
+          </div>
+
+          <div class="lol-picked-grid" id="pickedGrid">
+            <article class="lol-picked-card" id="pick1">
+              <img id="champImg1" class="lol-picked-image" alt="Champion" />
+              <div class="lol-picked-info">
+                <p id="champRole1">Role</p>
+                <h4 id="champName1">Empty Slot</h4>
+                <span id="champPlaystyle1">Playstyle</span>
+              </div>
+            </article>
+
+            <article class="lol-picked-card hidden" id="pick2">
+              <img id="champImg2" class="lol-picked-image" alt="Champion" />
+              <div class="lol-picked-info">
+                <p id="champRole2">Role</p>
+                <h4 id="champName2">Empty Slot</h4>
+                <span id="champPlaystyle2">Playstyle</span>
+              </div>
+            </article>
+
+            <article class="lol-picked-card hidden" id="pick3">
+              <img id="champImg3" class="lol-picked-image" alt="Champion" />
+              <div class="lol-picked-info">
+                <p id="champRole3">Role</p>
+                <h4 id="champName3">Empty Slot</h4>
+                <span id="champPlaystyle3">Playstyle</span>
+              </div>
+            </article>
+
+            <article class="lol-picked-card hidden" id="pick4">
+              <img id="champImg4" class="lol-picked-image" alt="Champion" />
+              <div class="lol-picked-info">
+                <p id="champRole4">Role</p>
+                <h4 id="champName4">Empty Slot</h4>
+                <span id="champPlaystyle4">Playstyle</span>
+              </div>
+            </article>
+
+            <article class="lol-picked-card hidden" id="pick5">
+              <img id="champImg5" class="lol-picked-image" alt="Champion" />
+              <div class="lol-picked-info">
+                <p id="champRole5">Role</p>
+                <h4 id="champName5">Empty Slot</h4>
+                <span id="champPlaystyle5">Playstyle</span>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <section class="lol-history-panel">
+          <div class="lol-roster-head">
+            <div>
+              <p class="lol-roster-kicker">Previous Boards</p>
+              <h3>Draft History</h3>
+            </div>
+          </div>
+
+          <div class="lol-history-list" id="historyList">
+            <p class="lol-history-empty">No drafts yet.</p>
+          </div>
+        </section>
+      </section>
+    </main>
+
+    <script src="lol.js"></script>
+  </body>
+</html>

@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Valorant Crosshair Gallery</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body class="crosshair-page">
+    <div class="bg-orb orb-1"></div>
+    <div class="bg-orb orb-2"></div>
+    <div class="grid-noise"></div>
+
+    <main class="crosshair-shell">
+      <header class="crosshair-hero">
+        <div class="crosshair-hero-top">
+          <a href="index.html" class="back-btn">← Back to Picker</a>
+          <span class="skins-badge">CROSSHAIR GALLERY</span>
+        </div>
+
+        <div class="crosshair-hero-content">
+          <div>
+            <h1>Valorant Crosshair Gallery</h1>
+            <p>
+              Browse lots of crosshair presets, preview them live, filter by
+              style, and copy the code you like.
+            </p>
+          </div>
+
+          <div class="crosshair-toolbar">
+            <input
+              type="text"
+              id="crosshairSearch"
+              class="search-input"
+              placeholder="Search crosshairs..."
+            />
+
+            <select id="crosshairSort" class="select-control">
+              <option value="name-asc">Name A–Z</option>
+              <option value="name-desc">Name Z–A</option>
+              <option value="style">Style</option>
+            </select>
+          </div>
+        </div>
+      </header>
+
+      <section class="crosshair-layout">
+        <aside class="crosshair-sidebar panel">
+          <div class="sidebar-section">
+            <div class="sidebar-title-row">
+              <h3>Filters</h3>
+              <button id="resetCrosshairFilters" class="ghost-btn">
+                Reset
+              </button>
+            </div>
+          </div>
+
+          <div class="sidebar-section">
+            <p class="sidebar-label">Category</p>
+            <div class="sidebar-chips" id="crosshairCategoryFilters">
+              <button
+                class="sidebar-chip active"
+                data-filter-type="category"
+                data-value="all"
+              >
+                All
+              </button>
+              <button
+                class="sidebar-chip"
+                data-filter-type="category"
+                data-value="Precise"
+              >
+                Precise
+              </button>
+              <button
+                class="sidebar-chip"
+                data-filter-type="category"
+                data-value="Aggressive"
+              >
+                Aggressive
+              </button>
+              <button
+                class="sidebar-chip"
+                data-filter-type="category"
+                data-value="Beginner"
+              >
+                Beginner
+              </button>
+              <button
+                class="sidebar-chip"
+                data-filter-type="category"
+                data-value="Dot"
+              >
+                Dot
+              </button>
+              <button
+                class="sidebar-chip"
+                data-filter-type="category"
+                data-value="Funny"
+              >
+                Funny
+              </button>
+            </div>
+          </div>
+
+          <div class="sidebar-section">
+            <p class="sidebar-label">Size</p>
+            <div class="sidebar-chips" id="crosshairSizeFilters">
+              <button
+                class="sidebar-chip active"
+                data-filter-type="size"
+                data-value="all"
+              >
+                All
+              </button>
+              <button
+                class="sidebar-chip"
+                data-filter-type="size"
+                data-value="Small"
+              >
+                Small
+              </button>
+              <button
+                class="sidebar-chip"
+                data-filter-type="size"
+                data-value="Medium"
+              >
+                Medium
+              </button>
+              <button
+                class="sidebar-chip"
+                data-filter-type="size"
+                data-value="Large"
+              >
+                Large
+              </button>
+            </div>
+          </div>
+
+          <div class="sidebar-section">
+            <p class="sidebar-label">Favorites</p>
+            <div class="sidebar-chips" id="crosshairFavoriteFilters">
+              <button
+                class="sidebar-chip active"
+                data-filter-type="favorite"
+                data-value="all"
+              >
+                All
+              </button>
+              <button
+                class="sidebar-chip"
+                data-filter-type="favorite"
+                data-value="favorites"
+              >
+                Favorites
+              </button>
+            </div>
+          </div>
+        </aside>
+
+        <section class="crosshair-main">
+          <div class="crosshair-feature panel">
+            <div class="crosshair-feature-meta">
+              <p class="results-kicker">Featured Preview</p>
+              <h2 id="featuredCrosshairName">Select a crosshair</h2>
+              <p class="crosshair-feature-desc" id="featuredCrosshairDesc">
+                Pick a preset from the gallery to preview it here.
+              </p>
+
+              <div class="crosshair-feature-tags">
+                <span class="crosshair-tag" id="featuredCrosshairCategory"
+                  >Category</span
+                >
+                <span class="crosshair-tag" id="featuredCrosshairSize"
+                  >Size</span
+                >
+                <span class="crosshair-tag" id="featuredCrosshairUse"
+                  >Use Case</span
+                >
+              </div>
+
+              <div class="crosshair-feature-actions">
+                <button id="copyFeaturedCode" class="spin-btn">
+                  Copy Code
+                </button>
+                <button id="toggleFeaturedFavorite" class="secondary-btn">
+                  ☆ Favorite
+                </button>
+              </div>
+              <div class="crosshair-import-box">
+                <p class="sidebar-label">Import Your Own Code</p>
+
+                <div class="crosshair-import-row">
+                  <input
+                    type="text"
+                    id="crosshairCodeInput"
+                    class="search-input"
+                    placeholder="Paste Valorant crosshair code..."
+                  />
+                  <button id="importCrosshairBtn" class="secondary-btn">
+                    Import
+                  </button>
+                </div>
+
+                <p class="crosshair-import-note" id="importMessage">
+                  Paste a code to preview it in the featured panel.
+                </p>
+              </div>
+            </div>
+
+            <div class="crosshair-preview-stage">
+              <div class="crosshair-preview-box">
+                <div
+                  id="featuredCrosshairPreview"
+                  class="crosshair-preview"
+                ></div>
+              </div>
+
+              <div class="crosshair-code-box">
+                <p class="sidebar-label">Crosshair Code</p>
+                <code id="featuredCrosshairCode">Select a preset</code>
+              </div>
+            </div>
+          </div>
+
+          <div class="skins-main-top panel">
+            <div class="results-meta">
+              <p class="results-kicker">Preset Library</p>
+              <h2 id="crosshairResultsTitle">Showing all crosshairs</h2>
+            </div>
+
+            <div class="results-count" id="crosshairResultsCount">
+              0 presets
+            </div>
+          </div>
+
+          <div class="crosshair-grid" id="crosshairGrid"></div>
+        </section>
+      </section>
+    </main>
+
+    <script src="crosshair.js"></script>
+  </body>
+</html>
